@@ -1,0 +1,189 @@
+{% extends "base.html" %} {% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style>
+  body {
+    background-color: #E3F2FD
+}
+
+.heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: #3D5AFE
+}
+
+.line1 {
+    color: #000;
+    font-size: 12px
+}
+
+.line2 {
+    color: #000;
+    font-size: 12px
+}
+
+.line3 {
+    color: #000;
+    font-size: 12px
+}
+
+.cards {
+    transition: all 0.2s ease;
+    cursor: pointer
+}
+
+.cards:hover {
+    box-shadow: 5px 6px 6px 2px #e9ecef;
+    transform: scale(1.1)
+}
+</style>
+<div>
+<h1>Product list</h1>
+
+<div class="main text-center mt-5">
+   
+</div>
+ {% if testme in 'loggedin' %}
+
+ <a data-target="#modalRegisterForms"  data-toggle="modal">
+ <div class="container mt-4 d-flex justify-content-center" >
+    <div class="row g-0">
+        <div class="col-md-4 border-right">
+            <div class="cards" style="#c9fffb">
+                <div class="first bg-white p-4 text-center"><img src="https://img.icons8.com/color/48/000000/add--v2.png"/>
+                    <h2>Add New product</h5>
+                   
+                </div>
+            </div>
+        </div>
+       
+       
+    </div>
+</div>
+</a>  
+
+ {% endif %}
+
+
+ <div class="container mt-4 d-flex justify-content-center" >
+    <div class="row g-0">
+    {% for product in newPro%}
+                    {%if current_username  %}
+                    {% ifequal product.product_user current_username%}
+                        <div class="col-md-4 border-right">
+                            <div class="cards" style="background-color:#abffcf;">
+                                <div class="first bg-white p-4 text-center"> <img src="https://img.icons8.com/clouds/100/000000/box.png" />
+                                    <h2>{{product.product_name}}</h5>
+                                    <p class="line1">{{product.product_desc}}</p>
+                                
+                                    <b>Editable</b>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    {% endifequal%}
+                    {%endif%}
+                    {% if current_username%}
+                    {% ifnotequal product.product_user current_username%}
+                    <div class="col-md-4 border-right">
+                        <div class="cards" >
+                            <div class="first bg-white p-4 text-center"> <img src="https://img.icons8.com/clouds/100/000000/box.png" />
+                                <h2>{{product.product_name}}</h5>
+                                <p class="line1">{{product.product_desc}}</p>
+                            
+                            
+                            
+                            </div>
+                        </div>
+                    </div>
+                    {% endifnotequal%}
+                    {%endif%}
+                    {%if not current_username %}
+                     <div class="col-md-4 border-right">
+                        <div class="cards" >
+                            <div class="first bg-white p-4 text-center"> <img src="https://img.icons8.com/clouds/100/000000/box.png" />
+                                <h2>{{product.product_name}}</h5>
+                                <p class="line1">{{product.product_desc}}</p>
+                            
+                            
+                            
+                            </div>
+                        </div>
+                    </div>
+                    {%endif%}
+                        
+     {%endfor%}  
+       
+    </div>
+</div>
+
+
+
+
+ <div class="modal fade" id="modalRegisterForms" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document" >
+              <div class="modal-content" style="width:80%">
+                        <div class="modal-header text-center" style="background-color:green">
+                          <h4 class="modal-title w-100 font-weight-bold" >New Product</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        
+                <div class="modal-body mx-3" style="width:50%;margin: auto;" >
+                 <form style="padding:10px" action="/newProduct" method='post'>
+                  {% csrf_token %}
+                   <div class="form-group">
+                          <div class="md-form mb-5">
+                          
+                          <label data-error="wrong" data-success="right" for="orangeForm-prod-name">Product Names</label>
+                          <input type="text" id="orangeForm-prod-name" name="orangeForm-prod-name" class="form-control validate" required>
+                        
+                          </div>
+                   </div>
+                   <div class="form-group">
+                        <div class="md-form mb-5">
+                        
+                          <label data-error="wrong" data-success="right" for="orangeForm-prod-price">Price</label>
+                          <input type="number" id="orangeForm-prod-price" name="orangeForm-prod-price" class="form-control validate" required>
+                        
+                        </div>
+                  </div>
+                   <div class="form-group">
+                        <div class="md-form mb-5">
+                         
+                          <label data-error="wrong" data-success="right" for="orangeForm-prod-desc">Description</label>
+                           <textarea rows="4" cols="50"  id="orangeForm-prod-desc" name="orangeForm-prod-desc"  class="form-control validate" ></textarea>
+                        </div>
+                  </div>
+                   <div class="form-group">
+                          <div class="md-form mb-4">
+                           
+                            <label data-error="wrong" data-success="right" for="orangeForm-available-stock">Available Stock</label>
+                            <input type="number" id="orangeForm-available-stock" name="orangeForm-available-stock" class="form-control validate" required>
+                          </div>
+                  </div>
+                <div class="form-group">
+                          <div class="md-form mb-4">
+                           
+                            <label data-error="wrong" data-success="right" for="orangeForm-prod-image">Add Image</label>
+                            <input type="file" id="orangeForm-prod-image" name="orangeForm-prod-image" class="form-control validate" required>
+                          </div>
+                  </div>
+                   
+                  <div class="modal-footer d-flex justify-content-center">
+                    <button type = "submit"class="btn btn-deep-orange"> Submit</button>
+                  </div>
+               
+                </form>
+              </div>
+            </div>
+     </div>
+
+</div>
+
+
+{% endblock %}
