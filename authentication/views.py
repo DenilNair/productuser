@@ -111,6 +111,17 @@ def newProduct(request):
       return render(request, 'productList.html',{'saved':'Product saved'})
     
    
+
+def productDetail(request):
+    print('show product details',request.path)
+    currpath=request.path
+    list_path=currpath.split('/')
+    for i in range(len(list_path)-1):
+        print(" list value",list_path[i+1],"    ")
+    product_name=list_path[2]
+    product_owner=list_path[3]
+    
+    return render(request,'productDetails.html',{'newPro':list,'current_username':globalUser})
         
 
     
